@@ -23,6 +23,38 @@
             },
             "detail": "调试器生成的任务。"
         }
+        ,
+        {
+            "type": "shell",
+            "label": "clean output", // 清空output文件
+            "command": "' ' > ${workspaceRoot}/output "
+        },
+        {
+            "type": "shell",
+            "label": "g++.exe build and run with redirection", // 使用g++编译程序，令生可执行文件生成在exes文件夹中，并使用重定向完成输入输出
+            "command": "D:\\mingwDir\\x86_64-8.1.0-release-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe -g ${file} -o ${workspaceRoot}\\exec\\${fileBasenameNoExtension}.exe ; cat ${workspaceRoot}\\input | ${workspaceRoot}\\exec\\${fileBasenameNoExtension}.exe > ${workspaceRoot}\\output",
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "label": "clean and run",
+            "dependsOn": [  // 先执行"clean output"任务，再执行"g++.exe build and run with redirection"任务
+                "clean output",
+                "g++.exe build and run with redirection"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "type": "shell",
+            "label": "clear exes",  // 清空工作区内所有的exe文件
+            "command": "rm ${workspaceRoot}n/exes/*.exe",
+            "problemMatcher": [
+                "$gcc"
+            ]
+        }
     ],
     "version": "2.0.0"
 }
